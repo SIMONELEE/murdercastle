@@ -30,7 +30,7 @@ var boot = {
     	game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
 
 		// preloading all images files
-		game.load.image('bg', 'images/bg.png');
+		game.load.image('bg', 'images/sky.png');
 		game.load.image('cat', 'images/cat.png');
 		game.load.image('tree', 'images/tree.png');
 		game.load.image('monkey', 'images/monkey.png');

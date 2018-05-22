@@ -35,7 +35,7 @@ var level1 = {
 
 		game.add.sprite(0, 0, 'star');
 		//  A simple background for our game
-		game.add.sprite(0, 0, 'sky');
+		//game.add.sprite(0, 0, 'sky');
 
 		//  The platforms group contains the ground and the 2 ledges we can jump on
 		platforms = game.add.group();
@@ -57,7 +57,7 @@ var level1 = {
 
 		ledge.body.immovable = true;
 
-		ledge = platforms.create(-150, 250, 'ground');
+		ledge = platforms.create(150, 250, 'ground');
 
 		ledge.body.immovable = true;
 		
