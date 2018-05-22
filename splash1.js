@@ -10,7 +10,7 @@ var splash1 = {
 			font: "25px Luckiest Guy",
 			fill: "#fff"
 		});
-		
+		 
 		instructions.anchor.set(0.5);
 		
 		tween = game.add.tween(instructions).to({

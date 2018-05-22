@@ -11,7 +11,7 @@ var player;
 var platforms;
 var cursors;
 
-var stars;
+var stars; 
 // Here we create the ground.
 //var ground = platforms.create(0, game.world.height - 64, 'ground');
 
