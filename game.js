@@ -16,7 +16,7 @@ Main = function () {};
 Main.prototype = {
 
 	preload: function () {
-		this.game.stage.backgroundColor = '#91d400';
+		this.game.stage.backgroundColor = '#680101';
 		// preloading the preloader...
 		this.load.image('loading', 'images/loading.png');
 	},

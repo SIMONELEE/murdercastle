@@ -8,7 +8,7 @@ WebFontConfig = {
 
     // The Google Fonts we want to load (specify as many as you like in the array)
     google: {
-      families: ['Chewy', 'Luckiest Guy']
+      families: ['Creepster', 'Anton', 'Chewy', 'Luckiest Guy']
     },
 	
 	createText: function () {
@@ -69,21 +69,21 @@ var boot = {
 		game.add.image(0, 0, 'bg');
 		
 		var titleShadow = game.add.text(game.world.centerX + 3, 53, 'MURDER CASTLE', {
-			font: "75px Luckiest Guy",
-			fill: "#000"
+			font: "75px Creepster",
+			fill: "#ed2929"
 		});
 		
 		titleShadow.anchor.set(0.5);
 		
 		var title = game.add.text(game.world.centerX, 50, 'MURDER CASTLE', {
-			font: "75px Luckiest Guy",
+			font: "75px Creepster",
 			fill: "#fff"
 		});
 		
 		title.anchor.set(0.5);
 		
 		var subTitle = game.add.text(game.world.centerX, 230, 'Phaser 2/CE demo, 2 levels', {
-			font: "25px Chewy",
+			font: "25px Anton",
 			fill: "#fff"
 		});
 		
