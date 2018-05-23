@@ -9,6 +9,7 @@ var platforms;
 var cursors;
 var ledge;
 var stars; 
+var key;
 
 
 var level1 = {
@@ -66,8 +67,34 @@ var level1 = {
 		player.animations.add('left', [0, 1, 2, 3], 10, true);
 		player.animations.add('right', [5, 6, 7, 8], 10, true);
 
+		
+		//Add a key
+
+//  Finally some stars to collect
+		keys = game.add.group();
+		
+
+		//  We will enable physics for any star that is created in this group
+		keys.enableBody = true;
+
+		//  Here we'll create 12 of them evenly spaced apart
+		for (var i = 0; i < 3; i++)
+		{
+			//  Create a star inside of the 'stars' group
+			var key = keys.create(i * 250, 0, 'key');
+
+			//  Let gravity do its thing
+			key.body.gravity.y = 500;
+
+			//  This just gives each star a slightly random bounce value
+			key.body.bounce.y = 0.2 + Math.random() * 0.4;
+    }
+
+		
+		
 		//  Finally some stars to collect
 		stars = game.add.group();
+		
 
 		//  We will enable physics for any star that is created in this group
 		stars.enableBody = true;
@@ -123,19 +150,22 @@ var level1 = {
 		game.physics.arcade.collide(stars, platforms);
 		game.physics.arcade.overlap(player, stars, this.collectStar, null, this);
 		
+		game.physics.arcade.collide(keys, platforms);
+		game.physics.arcade.overlap(player, keys, this.collectStar, null, this);
+		
 		
 	 //  Reset the players velocity (movement)
 		player.body.velocity.x = 0;
 		if (cursors.left.isDown)
 		{
-			//  Move to the left
+			//Move to the left
 			player.body.velocity.x = -150;
 
 			player.animations.play('left');
 		}
 		else if (cursors.right.isDown)
 		{
-			//  Move to the right
+			//Move to the right
 			player.body.velocity.x = 150;
 
 			player.animations.play('right');
