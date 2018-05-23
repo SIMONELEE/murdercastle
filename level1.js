@@ -3,14 +3,12 @@
 var button;
 // variable to control the feedback message display
 var update = true;
-var score = 0;
+var score, keyScore = 0;
 var player;
-var platforms;
+var platforms, ledge;
 var cursors;
-var ledge;
-var stars; 
-var key;
-
+var stars, keys; 
+var door;
 
 var level1 = {
 
@@ -52,10 +50,10 @@ var level1 = {
 		ledge = platforms.create(0, 360, 'ground_small');
 		ledge.body.immovable = true;
 		
-		 // The player and its settings
+		 //The player and its settings
 		player = game.add.sprite(32, game.world.height - 150, 'dude');
 
-		//  We need to enable physics on the player
+		//We need to enable physics on the player
 		game.physics.arcade.enable(player);
 
 		//  Player physics properties. Give the little guy a slight bounce.
@@ -89,8 +87,6 @@ var level1 = {
 			//  This just gives each star a slightly random bounce value
 			key.body.bounce.y = 0.2 + Math.random() * 0.4;
     }
-
-		
 		
 		//  Finally some stars to collect
 		stars = game.add.group();
@@ -111,12 +107,29 @@ var level1 = {
 			//  This just gives each star a slightly random bounce value
 			star.body.bounce.y = 0.3 + Math.random() * 0.2;
     }
+		
+		//add the door
+		//The player and its settings
+		door = game.add.sprite(132, game.world.height - 150, 'door');
 
+		//We need to enable physics on the player
+		game.physics.arcade.enable(door);
+
+		door.enableBody = false;
+		//  Player physics properties. Give the little guy a slight bounce.
+		door.body.bounce.y = 0.2;
+		door.body.gravity.y = 500;
+		door.body.collideWorldBounds = true;
 
 		//  Our controls.
 		cursors = game.input.keyboard.createCursorKeys();
 		
 		this.scoreTxt = game.add.text(10, 10, score.toString(), {
+			font: "30px Arial",
+			fill: "#ff0"
+		});
+		
+		this.keyScoreTxt = game.add.text(10, 50, keyScore.toString(), {
 			font: "30px Arial",
 			fill: "#ff0"
 		});
@@ -147,12 +160,15 @@ var level1 = {
 		 //  Collide the player and the stars with the platforms
     	var hitPlatform = game.physics.arcade.collide(player, platforms);
 		
+		game.physics.arcade.collide(door, platforms);
+		
 		game.physics.arcade.collide(stars, platforms);
 		game.physics.arcade.overlap(player, stars, this.collectStar, null, this);
 		
 		game.physics.arcade.collide(keys, platforms);
-		game.physics.arcade.overlap(player, keys, this.collectStar, null, this);
+		game.physics.arcade.overlap(player, keys, this.collectKey, null, this);
 		
+		game.physics.arcade.overlap(player, door, this.openDoor, null, this);
 		
 	 //  Reset the players velocity (movement)
 		player.body.velocity.x = 0;
@@ -184,6 +200,8 @@ var level1 = {
 			player.body.velocity.y = -400;
 		}
 		
+		
+		
 		// the countdown
 		this.tmp = formatTime(Math.round((this.timerEvent.delay - this.timer.ms) / 1000));
 
@@ -197,13 +215,26 @@ var level1 = {
 		}
 
 		// winning
-		if (score === 10) {
-			this.win();
+		if (score === 10 && keyScore === 3) {
+
+			//this.win();
 		}
 	},
 	
-	collectStar: function (player, star) {
+	openDoor: function (player, door){
+		if (score === 10 && keyScore === 3) {
+			console.log('the door is now open!');
+			door.enableBody = true;
 
+			this.win();
+		}
+		else 
+		{
+			door.enableBody = false;
+			 }
+	},
+	
+	collectStar: function (player, star) {
     // Removes the star from the screen
 	console.log('star caught!');
     star.kill();
@@ -211,33 +242,14 @@ var level1 = {
 	level1.scoreTxt.setText(score.toString());
 },
 	
-	
-/*	collectStar: function () {
+	collectKey: function (player, key) {
     // Removes the star from the screen
-	console.log('star caught!');
-	this.star.destory();
-	score++;
-	//level1.scoreTxt.setText(score.toString());
-   
-},*/
-/*
-	catHitHandler: function () {
-		// playing the catch animation
-		level1.catcher.animations.play('catch');
-		
-		this.catcherSound = game.add.audio('woosh');
-		this.catcherSound.play();
-
-		this.catSound = game.add.audio('cat');
-		this.catSound.volume = 0.5;
-		this.catSound.play();
-
-		level1.cat.x = Math.random() * game.width;
-		level1.cat.y = Math.random() * game.height;
-		score++;
-		level1.scoreTxt.setText(score.toString());
-		
-	},*/
+	console.log('key caught!');
+    key.kill();
+	keyScore++;
+	
+	level1.keyScoreTxt.setText(keyScore.toString());
+},
 
 	endTimer: function () {
 		// Stop the timer when the delayed event triggers
@@ -245,12 +257,13 @@ var level1 = {
 	},
 	// winning, loosing
 	win: function () {
-		player.destroy();
+		player.kill();
 		//bgSound.stop();
 		//this.catcher.kill();
 		this.timer.stop();
 		// resetting the global score
 		score = 0;
+		keyScore = 0;
 		game.state.start('splash2');
 	},
 

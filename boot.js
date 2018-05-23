@@ -59,6 +59,7 @@ var boot = {
 		game.load.image('ground_small', 'images/platformsmall.png');
 		game.load.image('star', 'images/first-aid-kit.png');
 		game.load.image('key', 'images/key.png');
+		game.load.image('door', 'images/door.png');
     	game.load.spritesheet('dude', 'images/dude.png', 32, 48);
 
 	},
