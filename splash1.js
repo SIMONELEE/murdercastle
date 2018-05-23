@@ -6,7 +6,7 @@ var splash1 = {
 
 		game.add.image(0, 0, 'bg');
 
-		var instructions = game.add.text(game.world.centerX, -50, 'Level 1:\nEscape the room by collecting life and keys.\nGather all the items and make your way to the door.', {
+		var instructions = game.add.text(game.world.centerX, -50, 'Level 1:\nGather 10 first aid kits and all keys -\nAnd make your escape by unlocking the door.', {
 			font: "25px Luckiest Guy",
 			fill: "#fff"
 		});

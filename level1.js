@@ -13,7 +13,7 @@ var door;
 var level1 = {
 
 	create: function () {
-		game.add.image(0, 0, 'sky');
+		game.add.image(0, 0, 'bg');
 		// button needs to be created here, but is hidden as default
 		button = game.add.button(game.world.centerX - 150, 450, 'playAgain', this.actionOnClick, this, 2, 1, 0);
 		button.visible = false;
@@ -110,7 +110,7 @@ var level1 = {
 		
 		//add the door
 		//The player and its settings
-		door = game.add.sprite(132, game.world.height - 150, 'door');
+		door = game.add.sprite(632, game.world.height - 150, 'door');
 
 		//We need to enable physics on the player
 		game.physics.arcade.enable(door);
@@ -214,18 +214,12 @@ var level1 = {
 			update = false;
 		}
 
-		// winning
-		if (score === 10 && keyScore === 3) {
-
-			//this.win();
-		}
 	},
 	
 	openDoor: function (player, door){
 		if (score === 10 && keyScore === 3) {
 			console.log('the door is now open!');
 			door.enableBody = true;
-
 			this.win();
 		}
 		else 
