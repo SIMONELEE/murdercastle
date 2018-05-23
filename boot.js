@@ -56,6 +56,7 @@ var boot = {
 		//preload the images from the tutorial
 		game.load.image('sky', 'images/sky.png');
     	game.load.image('ground', 'images/platform.png');
+		game.load.image('ground_small', 'images/platformsmall.png');
 		game.load.image('star', 'images/star.png');
     	game.load.spritesheet('dude', 'images/dude.png', 32, 48);
 
@@ -87,26 +88,9 @@ var boot = {
 		subTitle.anchor.set(0.5);
 
 		var button = game.add.button(game.world.centerX - 150, 250, 'button', this.actionOnClick, this, 2, 1, 0);
-
-		this.catcher = game.add.sprite(game.width / 2, 100, 'catcher');
-		this.catcher.anchor.setTo(0.5, 0);
-		game.physics.enable(this.catcher);
-		game.physics.arcade.enableBody(this.catcher); // important for velocity (movement) + collision detection
-		this.catcher.body.collideWorldBounds = true; // catcher cannot leave the world ;-)
-		this.catcher.body.velocity.setTo(-100, 0);
-		this.catcher.body.bounce.set(1, 1);
-		
-		//add sprite from the tutorial
-		//game.add.sprite(0, 0, 'star');
 	},
 
 	update: function () {
-		// changing catcher's sprite orientation on impact with the world's bounds
-		if (this.catcher.body.blocked.left) {
-			this.catcher.scale.x = -1;
-		} else if (this.catcher.body.blocked.right) {
-			this.catcher.scale.x = 1;
-		}
 
 	},
 
@@ -115,4 +99,4 @@ var boot = {
 		game.state.start('splash1');
 	}
 
-}
+};

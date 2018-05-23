@@ -4,26 +4,17 @@ var button;
 // variable to control the feedback message display
 var update = true;
 var score = 0;
-
-//from the tutorial
-
 var player;
 var platforms;
 var cursors;
-
+var ledge;
 var stars; 
-// Here we create the ground.
-//var ground = platforms.create(0, game.world.height - 64, 'ground');
 
-//  Now let's create two ledges
-//var ledge = platforms.create(400, 400, 'ground');
-
-//var hitPlatform = game.physics.arcade.collide(player, platforms);
 
 var level1 = {
 
 	create: function () {
-		game.add.image(0, 0, 'bg');
+		game.add.image(0, 0, 'sky');
 		// button needs to be created here, but is hidden as default
 		button = game.add.button(game.world.centerX - 150, 450, 'playAgain', this.actionOnClick, this, 2, 1, 0);
 		button.visible = false;
@@ -33,9 +24,6 @@ var level1 = {
 		//  We're going to be using physics, so enable the Arcade Physics system
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 
-		game.add.sprite(0, 0, 'star');
-		//  A simple background for our game
-		//game.add.sprite(0, 0, 'sky');
 
 		//  The platforms group contains the ground and the 2 ledges we can jump on
 		platforms = game.add.group();
@@ -53,12 +41,14 @@ var level1 = {
 		ground.body.immovable = true;
 
 		//  Now let's create two ledges
-		var ledge = platforms.create(400, 400, 'ground');
-
+		ledge = platforms.create(400, 400, 'ground');
 		ledge.body.immovable = true;
 
 		ledge = platforms.create(150, 250, 'ground');
-
+		ledge.body.immovable = true;
+		
+		//small ledge 
+		ledge = platforms.create(0, 360, 'ground_small');
 		ledge.body.immovable = true;
 		
 		 // The player and its settings
@@ -77,26 +67,26 @@ var level1 = {
 		player.animations.add('right', [5, 6, 7, 8], 10, true);
 
 		//  Finally some stars to collect
-    stars = game.add.group();
+		stars = game.add.group();
 
-    //  We will enable physics for any star that is created in this group
-    stars.enableBody = true;
+		//  We will enable physics for any star that is created in this group
+		stars.enableBody = true;
 
-    //  Here we'll create 12 of them evenly spaced apart
-    for (var i = 0; i < 12; i++)
-    {
-        //  Create a star inside of the 'stars' group
-        var star = stars.create(i * 70, 0, 'star');
+		//  Here we'll create 12 of them evenly spaced apart
+		for (var i = 0; i < 12; i++)
+		{
+			//  Create a star inside of the 'stars' group
+			var star = stars.create(i * 70, 0, 'star');
 
-        //  Let gravity do its thing
-        star.body.gravity.y = 500;
+			//  Let gravity do its thing
+			star.body.gravity.y = 500;
 
-        //  This just gives each star a slightly random bounce value
-        star.body.bounce.y = 0.3 + Math.random() * 0.2;
+			//  This just gives each star a slightly random bounce value
+			star.body.bounce.y = 0.3 + Math.random() * 0.2;
     }
 
 
-		    //  Our controls.
+		//  Our controls.
 		cursors = game.input.keyboard.createCursorKeys();
 		
 		this.scoreTxt = game.add.text(10, 10, score.toString(), {
@@ -132,45 +122,6 @@ var level1 = {
 		
 		game.physics.arcade.collide(stars, platforms);
 		game.physics.arcade.overlap(player, stars, this.collectStar, null, this);
-		
-		// velocity (property on body) moves the catcher/monkey in any direction
-		// variable for movement speed
-/*		var speed = 150;
-		// default velocity is 0 (catcher is not moving)
-		player.body.velocity.x = 0;
-		player.body.velocity.y = 0;
-
-		if (cursors.left.isDown) {
-			player.body.velocity.x = -speed;
-			player.scale.x = 1;
-		}
-		if (cursors.right.isDown) {
-			player.body.velocity.x = speed;
-			player.scale.x = -1;
-		}
-		if (cursors.up.isDown) {
-			player.body.velocity.y = -speed;
-		}
-		if (cursors.down.isDown) {
-			player.body.velocity.y = speed;
-		}
-		
-		
-		//  Allow the player to jump if they are touching the ground.
-		if (cursors.up.isDown && player.body.touching.down && hitPlatform)
-		{
-			player.body.velocity.y = -350;
-		}*/
-		
-		
-		
-		
-		//from tutorial
-		//  Collide the player and the stars with the platforms
-		
-		//game.physics.arcade.collide(stars, platforms);
-		
-		//game.physics.arcade.overlap(this.player, this.star, this.collectStar);
 		
 		
 	 //  Reset the players velocity (movement)
@@ -264,9 +215,9 @@ var level1 = {
 	},
 	// winning, loosing
 	win: function () {
-		this.cat.destroy();
-		bgSound.stop();
-		this.catcher.kill();
+		player.destroy();
+		//bgSound.stop();
+		//this.catcher.kill();
 		this.timer.stop();
 		// resetting the global score
 		score = 0;
@@ -275,8 +226,7 @@ var level1 = {
 
 	loose: function () {
 
-		this.catcher.kill();
-		this.cat.kill();
+		player.kill();
 		this.timer.stop();
 		/*
 		Difference between Kill and Destroy
@@ -296,7 +246,7 @@ var level1 = {
 		}, 1500, Phaser.Easing.Bounce.Out, true);
 		// revealing the playAgain button
 		button.visible = true;
-	}/*,
+	},
 
 	actionOnClick: function () {
 		score = 0;
@@ -304,5 +254,5 @@ var level1 = {
 		update = true;
 		// launching level 1 again
 		game.state.start('level1');
-	}*/
+	}
 }
