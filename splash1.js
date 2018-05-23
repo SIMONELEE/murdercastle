@@ -6,7 +6,7 @@ var splash1 = {
 
 		game.add.image(0, 0, 'bg');
 
-		var instructions = game.add.text(game.world.centerX, -50, 'Level 1:\nGather 10 first aid kits and all keys -\nAnd make your escape by unlocking the door.', {
+		var instructions = game.add.text(game.world.centerX, -50, 'Level 1:\nGather all 15 first aid kits to escape.', {
 			font: "25px Anton",
 			fill: "#fff"
 		});
@@ -18,10 +18,6 @@ var splash1 = {
 		}, 1500, Phaser.Easing.Bounce.Out, true);
 		tween.onComplete.add(onComplete, this);
 		
-		// Add the background sound
-		bgSound = game.add.audio('wouldn_doo');
-		bgSound.play();
-		bgSound.loopFull();
 
 		setTimeout(function () {
 			game.state.start("level1");

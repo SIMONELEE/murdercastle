@@ -8,7 +8,7 @@ WebFontConfig = {
 
     // The Google Fonts we want to load (specify as many as you like in the array)
     google: {
-      families: ['Creepster', 'Anton', 'Chewy', 'Luckiest Guy']
+      families: ['Creepster', 'Anton']
     },
 	
 	createText: function () {
@@ -28,39 +28,18 @@ var boot = {
 		
 		// Load the Google WebFont Loader script
     	game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
-
-		// preloading all images files
-		game.load.image('bg', 'images/bg_1.png');
-		game.load.image('cat', 'images/cat.png');
-		game.load.image('tree', 'images/tree.png');
-		game.load.image('monkey', 'images/monkey.png');
-		game.load.image('snake', 'images/snake.png');
 		
 		// preloading animation sprites
 		game.load.spritesheet('catcher', 'images/catcher.png', 36, 40);
 		game.load.spritesheet('button', 'images/button_sprite.png', 300, 75, 3);
-		game.load.spritesheet('playAgain', 'images/button_again_sprite.png', 300, 75, 3);
-		
-		//  300x75 is the size of each frame
-		//  There are 3 frames in the PNG - you can leave this value blank if the frames fill up the entire PNG...
-
-		// preloading all audio files
-		game.load.audio('wouldn_doo', 'audio/level1.mp3');
-		game.load.audio('cat', 'audio/cat.mp3');
-		game.load.audio('woosh', 'audio/airslide.mp3');
-		game.load.audio('jungle', 'audio/level2.mp3');
-		game.load.audio('monkey', 'audio/monkey.mp3');
-		game.load.audio('oowh', 'audio/oowh.mp3');
-		
+		game.load.spritesheet('playAgain', 'images/button_again_sprite.png', 300, 75, 3);		
 		
 		//preload the images from the tutorial
-		game.load.image('sky', 'images/sky.png');
+		game.load.image('bg', 'images/bg_1.png');
     	game.load.image('ground', 'images/platform.png');
 		game.load.image('ground_small', 'images/platformsmall.png');
 		game.load.image('star', 'images/first-aid-kit.png');
-		game.load.image('key', 'images/key.png');
-		game.load.image('door', 'images/door.png');
-    	game.load.spritesheet('dude', 'images/dude.png', 32, 48);
+    	game.load.spritesheet('victim', 'images/victim.png');
 
 	},
 
@@ -82,7 +61,7 @@ var boot = {
 		
 		title.anchor.set(0.5);
 		
-		var subTitle = game.add.text(game.world.centerX, 230, 'Phaser 2/CE demo, 2 levels', {
+		var subTitle = game.add.text(game.world.centerX, 230, 'Prototype. Version 1.0', {
 			font: "25px Anton",
 			fill: "#fff"
 		});

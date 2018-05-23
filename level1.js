@@ -13,10 +13,7 @@ var level1 = {
 
 	create: function () {
 		game.add.image(0, 0, 'bg');
-		
-
-		
-		//code from the tutorial
+	
 		//  We're going to be using physics, so enable the Arcade Physics system
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -56,19 +53,17 @@ var level1 = {
 		ledge.body.immovable = true;
 		
 		 //The player and its settings
-		player = game.add.sprite(32, game.world.height - 150, 'dude');
-
-		//We need to enable physics on the player
-		game.physics.arcade.enable(player);
+		player = this.add.sprite(32, game.world.height - 150, 'victim');
+	
+			this.physics.enable(player, Phaser.Physics.ARCADE);
+			player.enableBody = true;
 
 		//  Player physics properties. Give the little guy a slight bounce.
 		player.body.bounce.y = 0.2;
 		player.body.gravity.y = 500;
 		player.body.collideWorldBounds = true;
 
-		//  Our two animations, walking left and right.
-		player.animations.add('left', [0, 1, 2, 3], 10, true);
-		player.animations.add('right', [5, 6, 7, 8], 10, true);
+
 		
 		//  Finally some stars to collect
 		stars = game.add.group();
@@ -137,21 +132,21 @@ var level1 = {
 		if (cursors.left.isDown)
 		{
 			//Move to the left
-			player.body.velocity.x = -250;
-
-			player.animations.play('left');
+			player.body.velocity.x = -150;
+			player.scale.x = -1;
+			//player.animations.play('left');
 		}
 		else if (cursors.right.isDown)
 		{
 			//Move to the right
-			player.body.velocity.x = 250;
-
-			player.animations.play('right');
+			player.body.velocity.x = 150;
+			player.scale.x = 1;
+			//player.animations.play('right');
 		}
 		else
 		{
 			//  Stand still
-			player.animations.stop();
+			//player.animations.stop();
 
 			player.frame = 4;
 		}
@@ -200,8 +195,6 @@ var level1 = {
 	win: function () {
 		update = false;
 		player.kill();
-		//bgSound.stop();
-		//this.catcher.kill();
 		this.timer.stop();
 		txtGameOver = game.add.text(game.world.centerX, -100, "YOU ESCAPED!", {
 			font: "50px Anton",
@@ -213,20 +206,11 @@ var level1 = {
 		}, 1500, Phaser.Easing.Bounce.Out, true);
 		// resetting the global score
 		score = 0;
-		//game.state.start('splash1');
 	},
 
 	loose: function () {
-
 		player.kill();
 		this.timer.stop();
-		/*
-		Difference between Kill and Destroy
-
-		Kill is supposed to halt rendering, but the object still exists. It is good if you want to make a reusable object. You could create the object again without the cost of actually creating the object again.
-
-		Destroy should remove the object and everything related to it. You use this when you want to send the object to the garbage collector.
-		*/
 		txtGameOver = game.add.text(game.world.centerX, -100, "NOT FAST ENOUGH - GAME OVER", {
 			font: "50px Anton",
 			fill: "#FFF"
