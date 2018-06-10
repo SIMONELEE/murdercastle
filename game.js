@@ -27,6 +27,8 @@ Main.prototype = {
 		game.state.add('boot', boot);
 		game.state.add('splash1', splash1);
 		game.state.add('level1', level1);
+		game.state.add('splash2', splash2);
+		game.state.add('level2', level2);
 		// launching the boot screen
 		game.state.start('boot');
 	}

@@ -18,9 +18,13 @@ var splash1 = {
 		}, 1500, Phaser.Easing.Bounce.Out, true);
 		tween.onComplete.add(onComplete, this);
 		
+		// Add the background sound
+		bgSound = game.add.audio('bgmusic');
+		bgSound.play();
+		bgSound.loopFull();
 
 		setTimeout(function () {
-			game.state.start("level1");
+			game.state.start('level1');
 		}, 5000);
 		
 		function onComplete() {

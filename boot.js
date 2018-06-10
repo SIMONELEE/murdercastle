@@ -36,11 +36,25 @@ var boot = {
 		
 		//preload the images from the tutorial
 		game.load.image('bg', 'images/bg_1.png');
-    	game.load.image('ground', 'images/platform.png');
-		game.load.image('ground_small', 'images/platformsmall.png');
-		game.load.image('star', 'images/first-aid-kit.png');
+		game.load.image('bg2', 'images/bg_2.png');
+		game.load.image('door', 'images/door_1.png');
+		game.load.image('ground', 'images/platform.png');
+    	game.load.image('groundbloody', 'images/platformbloody.png');
+		game.load.image('ground_small', 'images/platformsmallbloody.png');
+		game.load.image('kit', 'images/first-aid-kit.png');
     	game.load.spritesheet('victim', 'images/victim.png');
-
+		game.load.image('key', 'images/key.png');
+		
+		
+		
+		// preloading all audio files
+		game.load.audio('bgmusic', 'audio/danger_zone.mp3');
+		game.load.audio('scream', 'audio/scream.mp3');
+/*		game.load.audio('woosh', 'audio/airslide.mp3');
+		game.load.audio('jungle', 'audio/level2.mp3');
+		game.load.audio('monkey', 'audio/monkey.mp3');
+		game.load.audio('oowh', 'audio/oowh.mp3');
+*/
 	},
 
 	create: function () {
@@ -61,7 +75,7 @@ var boot = {
 		
 		title.anchor.set(0.5);
 		
-		var subTitle = game.add.text(game.world.centerX, 230, 'Prototype. Version 1.0', {
+		var subTitle = game.add.text(game.world.centerX, 230, 'Prototype. Version 2.0', {
 			font: "25px Anton",
 			fill: "#fff"
 		});
@@ -69,6 +83,7 @@ var boot = {
 		subTitle.anchor.set(0.5);
 
 		var button = game.add.button(game.world.centerX - 150, 250, 'button', this.actionOnClick, this, 2, 1, 0);
+
 	},
 
 	update: function () {

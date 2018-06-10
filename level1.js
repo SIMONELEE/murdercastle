@@ -4,40 +4,41 @@ var button;
 // variable to control the feedback message display
 var update = true;
 var score;
-var player;
-var platforms, ledge;
-var cursors;
-var stars;
+//var player;
+//var platforms, ledge;
+//var cursors;
+//var kits;
 
 var level1 = {
 
 	create: function () {
 		game.add.image(0, 0, 'bg');
 	
-		//  We're going to be using physics, so enable the Arcade Physics system
+		//We're going to be using physics, so enable the Arcade Physics system
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 
 
-		//  The platforms group contains the ground and the 2 ledges we can jump on
+		//The platforms group contains the ground and the 2 ledges we can jump on
 		platforms = game.add.group();
 
-		//  We will enable physics for any object that is created in this group
+		//We will enable physics for any object that is created in this group
+		//game.physics.arcade.enableBody(this.platforms);
 		platforms.enableBody = true;
-
+		//this.platforms.body.immovable = true;
 		// Here we create the ground.
 		var ground = platforms.create(0, game.world.height - 50, 'ground');
+		//var ground = platforms.create(0, game.world.height - 50, 'ground');
 
-		//  Scale it to fit the width of the game (the original sprite is 400x32 in size)
+		//  Scale it to fit the width of the game 
 		ground.scale.setTo(3, 2);
-
 		//  This stops it from falling away when you jump on it
 		ground.body.immovable = true;
 
 		//  Now let's create two ledges
-		ledge = platforms.create(400, 400, 'ground');
+		var ledge = platforms.create(400, 400, 'groundbloody');
 		ledge.body.immovable = true;
 
-		ledge = platforms.create(150, 250, 'ground');
+		ledge = platforms.create(150, 250, 'groundbloody');
 		ledge.body.immovable = true;
 		
 		//small ledge 
@@ -65,24 +66,24 @@ var level1 = {
 
 
 		
-		//  Finally some stars to collect
-		stars = game.add.group();
+		//  Finally some kits to collect
+		kits = game.add.group();
 		
 
-		//  We will enable physics for any star that is created in this group
-		stars.enableBody = true;
+		//  We will enable physics for any kit that is created in this group
+		kits.enableBody = true;
 
 		//  Here we'll create 12 of them evenly spaced apart
 		for (var i = 0; i < 15; i++)
 		{
-			//  Create a star inside of the 'stars' group
-			var star = stars.create(i * 70, 0, 'star');
+			//  Create a kit inside of the 'kits' group
+			var kit = kits.create(i * 70, 0, 'kit');
 
 			//  Let gravity do its thing
-			star.body.gravity.y = 500;
+			kit.body.gravity.y = 500;
 
-			//  This just gives each star a slightly random bounce value
-			star.body.bounce.y = 0.3 + Math.random() * 0.2;
+			//  This just gives each kit a slightly random bounce value
+			kit.body.bounce.y = 0.3 + Math.random() * 0.2;
     }
 
 		//  Our controls.
@@ -120,11 +121,11 @@ var level1 = {
 
 	update: function () {
 		
-		 //  Collide the player and the stars with the platforms
+		 //  Collide the player and the kits with the platforms
     	var hitPlatform = game.physics.arcade.collide(player, platforms);
 		
-		game.physics.arcade.collide(stars, platforms);
-		game.physics.arcade.overlap(player, stars, this.collectStar, null, this);
+		game.physics.arcade.collide(kits, platforms);
+		game.physics.arcade.overlap(player, kits, this.collectKit, null, this);
 		
 		
 	 //  Reset the players velocity (movement)
@@ -179,10 +180,10 @@ var level1 = {
 
 	},
 	
-	collectStar: function (player, star) {
-    // Removes the star from the screen
-	console.log('star caught!');
-    star.kill();
+	collectKit: function (player, kit) {
+    // Removes the kit from the screen
+	console.log('Firstaid Kit caught!');
+    kit.kill();
 	score++;
 	level1.scoreTxt.setText(score.toString());
 },
@@ -206,9 +207,12 @@ var level1 = {
 		}, 1500, Phaser.Easing.Bounce.Out, true);
 		// resetting the global score
 		score = 0;
+		game.state.start('splash2');
 	},
 
 	loose: function () {
+		this.looseScream = game.add.audio('scream');
+		this.looseScream.play();
 		player.kill();
 		this.timer.stop();
 		txtGameOver = game.add.text(game.world.centerX, -100, "NOT FAST ENOUGH - GAME OVER", {
