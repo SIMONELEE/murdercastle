@@ -4,10 +4,6 @@ var button;
 // variable to control the feedback message display
 var update = true;
 var score;
-//var player;
-//var platforms, ledge;
-//var cursors;
-//var kits;
 
 var level1 = {
 

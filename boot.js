@@ -42,7 +42,7 @@ var boot = {
     	game.load.image('groundbloody', 'images/platformbloody.png');
 		game.load.image('ground_small', 'images/platformsmallbloody.png');
 		game.load.image('kit', 'images/first-aid-kit.png');
-    	game.load.spritesheet('victim', 'images/victim.png');
+    	game.load.image('victim', 'images/victim.png');
 		game.load.image('key', 'images/key.png');
 		
 		

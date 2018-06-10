@@ -4,10 +4,6 @@ var button;
 // variable to control the feedback message display
 var update = true;
 var score;
-//var player;
-//var platforms, ledge;
-//var cursors;
-//var kits;
 
 var level2 = {
 
@@ -56,15 +52,8 @@ var level2 = {
 		ledge = platforms.create(90, 100, 'ground_small');
 		ledge.body.immovable = true;
 		
-		
-		doors = this.add.sprite(750, 181, 'door');
-		//this.doors = game.add.image(750, 181, 'door');
-		//game.physics.arcade.enable(this.doors)
-		
-/*		//Add door
-		doors = this.add.image(750, 181, 'door');
-		//door.enableBody = false;*/
-		
+		//ADDING DOOR
+		doors = this.add.sprite(750, 181, 'door');		
 		this.physics.enable(doors, Phaser.Physics.ARCADE);
 		doors.enableBody = true;
 		
@@ -167,7 +156,6 @@ var level2 = {
 		game.physics.arcade.collide(keys, platforms);
 		game.physics.arcade.overlap(player, kits, this.collectKit, null, this);
 		game.physics.arcade.overlap(player, keys, this.collectKey, null, this);
-		game.physics.arcade.overlap(player, doors, this.doorOpen, null, this);
 
 	 //  Reset the players velocity (movement)
 		player.body.velocity.x = 0;
@@ -200,7 +188,6 @@ var level2 = {
 		}
 		
 		
-		
 		// the countdown
 		this.tmp = formatTime(Math.round((this.timerEvent.delay - this.timer.ms) / 1000));
 
@@ -215,14 +202,17 @@ var level2 = {
 
 		//testing new winning condition
 		if (score === 20){
-/*			console.log('door open!');
-			//update = true;
-			
-			door.enableBody = true;
-			//player.kill();
-			//this.doorOpen();*/
+			game.physics.arcade.overlap(player, doors, this.doorOpen, null, this);
+			console.log('door open!');
 		}
 
+	},
+	
+		// winning, loosing
+	doorOpen: function (player, doors) {
+		console.log('door!');
+		player.kill();
+		this.win();
 	},
 	
 	collectKit: function (player, kit) {
@@ -246,16 +236,11 @@ var level2 = {
 		this.timer.stop();
 	},
 	
-	// winning, loosing
-	doorOpen: function (player, doors) {
-		console.log('door!');
-		player.kill();
-	},
-	
 	win: function () {
 		update = false;
 		player.kill();
 		this.timer.stop();
+		bgSound.stop();
 		txtGameOver = game.add.text(game.world.centerX, -100, "YOU ESCAPED!", {
 			font: "50px Anton",
 			fill: "#FFF"
@@ -266,7 +251,7 @@ var level2 = {
 		}, 1500, Phaser.Easing.Bounce.Out, true);
 		// resetting the global score
 		score = 0;
-		game.state.start('splash2');
+		//game.state.start('splash2');
 	},
 
 	loose: function () {
