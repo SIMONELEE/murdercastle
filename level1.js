@@ -10,81 +10,73 @@ var level1 = {
 	create: function () {
 		game.add.image(0, 0, 'bg');
 	
-		//We're going to be using physics, so enable the Arcade Physics system
+		//ENABLE THE ARCADE PHYSICS SYSTEM
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 
-
-		//The platforms group contains the ground and the 2 ledges we can jump on
+		//CREATE A GROUP OF PLATFORMS THAT ARE THE GROUND AND LEDGES 
 		platforms = game.add.group();
 
-		//We will enable physics for any object that is created in this group
-		//game.physics.arcade.enableBody(this.platforms);
+		//ENABLE PHYSICS FOR ANY OBJECTS CREATED IN THE GROUP:
 		platforms.enableBody = true;
-		//this.platforms.body.immovable = true;
-		// Here we create the ground.
+		
+		
+		//CREATE THE GROUND OF THE GAME
 		var ground = platforms.create(0, game.world.height - 50, 'ground');
-		//var ground = platforms.create(0, game.world.height - 50, 'ground');
 
-		//  Scale it to fit the width of the game 
+		//SCALE THE GROUND TO FIT THE GAME CANVAS 
 		ground.scale.setTo(3, 2);
-		//  This stops it from falling away when you jump on it
+		
+		//THIS STOPS THE GROUND FROM FALLING AWAY WHEN JUMPED ON
 		ground.body.immovable = true;
 
-		//  Now let's create two ledges
+		//CREATE LEDGES FOR THE GAME
 		var ledge = platforms.create(400, 400, 'groundbloody');
 		ledge.body.immovable = true;
 
 		ledge = platforms.create(150, 250, 'groundbloody');
 		ledge.body.immovable = true;
 		
-		//small ledge 
+		//SMALL LEDGES
 		ledge = platforms.create(0, 360, 'ground_small');
 		ledge.body.immovable = true;
 		
-		//small ledge 
 		ledge = platforms.create(700, 280, 'ground_small');
 		ledge.body.immovable = true;
 		
-		//small ledge 
 		ledge = platforms.create(900, 130, 'ground_small');
 		ledge.body.immovable = true;
 		
-		 //The player and its settings
+		
+		//ADDING THE PLAYER AND SETTINGS
 		player = this.add.sprite(32, game.world.height - 150, 'victim');
-	
-			this.physics.enable(player, Phaser.Physics.ARCADE);
-			player.enableBody = true;
+		this.physics.enable(player, Phaser.Physics.ARCADE);
+		player.enableBody = true;
 
-		//  Player physics properties. Give the little guy a slight bounce.
+		//PLAYER PHYSICS PROPERTIES 
 		player.body.bounce.y = 0.2;
 		player.body.gravity.y = 500;
 		player.body.collideWorldBounds = true;
 
 
-		
-		//  Finally some kits to collect
+		//ADDING FIRSTAID KITS TO COLLECT
+		//ADDING THEM IN A GROUP
 		kits = game.add.group();
 		
-
-		//  We will enable physics for any kit that is created in this group
+		//ENABLE PHYSICS FOR THE KITS 
 		kits.enableBody = true;
 
-		//  Here we'll create 12 of them evenly spaced apart
+		//CREATING 15 KITS SPACED OUT ON THE CANVAS
 		for (var i = 0; i < 15; i++)
 		{
-			//  Create a kit inside of the 'kits' group
 			var kit = kits.create(i * 70, 0, 'kit');
-
-			//  Let gravity do its thing
 			kit.body.gravity.y = 500;
-
-			//  This just gives each kit a slightly random bounce value
 			kit.body.bounce.y = 0.3 + Math.random() * 0.2;
     }
 
-		//  Our controls.
+		//KEYBOARD CONTROLS
 		cursors = game.input.keyboard.createCursorKeys();
 		
+		//THE SCORE TEXT
 		this.scoreTxt = game.add.text(10, 10, score.toString(), {
 			font: "30px Arial",
 			fill: "#ff0"
@@ -92,16 +84,16 @@ var level1 = {
 		
 		this.scoreTxt.font = 'Creepster';
 
-		// Create a custom timer (global variable countDown + format function in game.js)
+		//CUSTOM TIMER (global variable countDown + format function in game.js)
 		this.timer = game.time.create();
 
 		// Create a delayed event 1m and 30s from now
 		this.timerEvent = this.timer.add(Phaser.Timer.SECOND * countDown, this.endTimer, this);
 
-		// Start the timer
+		//START THE TIMER
 		this.timer.start();
 
-		// Display the timer
+		//DISPLAY TIMER
 		this.txtTimer = game.add.text(940, 10, formatTime(Math.round((this.timerEvent.delay - this.timer.ms) / 1000)), {
 			font: "40px Arial",
 			fill: "#680101"
@@ -109,7 +101,7 @@ var level1 = {
 		
 		this.txtTimer.font = 'Creepster';
 		
-		// button needs to be created here, but is hidden as default
+		//BUTTON TO BE CREATED - BUT IT'S HIDDEN AS DEFAULT
 		button = game.add.button(game.world.centerX - 150, 350, 'playAgain', this.actionOnClick, this, 2, 1, 0);
 		button.visible = false;
 
@@ -117,38 +109,37 @@ var level1 = {
 
 	update: function () {
 		
-		 //  Collide the player and the kits with the platforms
+		//COLLIDE THE PLAYER WITH THE PLATFORM. WON'T FALL THROUGH
     	var hitPlatform = game.physics.arcade.collide(player, platforms);
 		
+		//COLLIDE THE KITS WITH THE PLATFORMS AND WON'T FALL THROUGH
 		game.physics.arcade.collide(kits, platforms);
+		
+		//WHEN THE PLAYER AND KITS OVERLAP = THE COLLECTKIT FUNCTION
 		game.physics.arcade.overlap(player, kits, this.collectKit, null, this);
 		
 		
-	 //  Reset the players velocity (movement)
+		// Reset the players velocity (movement)
 		player.body.velocity.x = 0;
 		if (cursors.left.isDown)
 		{
-			//Move to the left
+			//MOVE TO THE LEFT
 			player.body.velocity.x = -150;
 			player.scale.x = -1;
-			//player.animations.play('left');
 		}
 		else if (cursors.right.isDown)
 		{
-			//Move to the right
+			//MOVE TO THE RIGHT
 			player.body.velocity.x = 150;
 			player.scale.x = 1;
-			//player.animations.play('right');
 		}
 		else
 		{
-			//  Stand still
-			//player.animations.stop();
-
+			//STAND STILL
 			player.frame = 4;
 		}
 
-		//  Allow the player to jump if they are touching the ground.
+		//JUMPING IF THE PLAYER IS TOUCHING THE GROUND
 		if (cursors.up.isDown && player.body.touching.down && hitPlatform)
 		{
 			player.body.velocity.y = -400;
@@ -156,26 +147,28 @@ var level1 = {
 		
 		
 		
-		// the countdown
+		//THE COUNTDOWN
 		this.tmp = formatTime(Math.round((this.timerEvent.delay - this.timer.ms) / 1000));
 
 		if (this.timer.running && this.tmp >= 0) {
 			this.txtTimer.text = formatTime(Math.round((this.timerEvent.delay - this.timer.ms) / 1000));
 		} else if (score < 15 && update === true) {
-			// calling the function handling a "loose" scenario
+			//CALLS THE LOOSE FUNCTION
 			this.loose();
-			// update is used to prevent the Phaser update loop calling this function indefinitely
+			//UPDATE IS USED TO PREVENT THE PHASER UPDATE LOOP CALLING THIS FUNCTIO INDEFINITELY
 			update = false;
 		}
 
 		
-		// winning
+		//WINNING
 		if (score === 15) {
 			this.win();
 		}
 
 	},
 	
+	
+	//FUNCTION (KEY/VALUE) TO COLLECT THE KITS
 	collectKit: function (player, kit) {
     // Removes the kit from the screen
 	console.log('Firstaid Kit caught!');
@@ -188,7 +181,7 @@ var level1 = {
 		// Stop the timer when the delayed event triggers
 		this.timer.stop();
 	},
-	// winning, loosing
+	//WINNING
 	win: function () {
 		update = false;
 		player.kill();
@@ -206,6 +199,7 @@ var level1 = {
 		game.state.start('splash2');
 	},
 
+	//LOOSING
 	loose: function () {
 		this.looseScream = game.add.audio('scream');
 		this.looseScream.play();
@@ -216,19 +210,19 @@ var level1 = {
 			fill: "#FFF"
 		});
 		txtGameOver.anchor.set(0.5);
-		// text animation
+		//TEXT ANIMATION
 		tween = game.add.tween(txtGameOver).to({
 			y: game.world.centerY
 		}, 1500, Phaser.Easing.Bounce.Out, true);
-		// revealing the playAgain button
+		//REVEAL THE PLAY AGAIN BUTTON (HIDDEN DEFAULT)
 		button.visible = true;
 	},
 
 	actionOnClick: function () {
 		score = 0;
-		// resetting update when replaying the level
+		//RESETTING UPDATE WHEN REPLAYING THE LEVEL
 		update = true;
-		// launching level 1 again
+		//LAUNCHING LEVEL 1 AGAIN
 		game.state.start('level1');
 	}
 }

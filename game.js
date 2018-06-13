@@ -1,6 +1,6 @@
 var game = new Phaser.Game(1000, 600, Phaser.CANVAS, 'game');
 // global game variables
-var score, bgSound, scream;
+var score;
 
 // global timer function
 var countDown = 30;

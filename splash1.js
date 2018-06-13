@@ -18,7 +18,7 @@ var splash1 = {
 		}, 1500, Phaser.Easing.Bounce.Out, true);
 		tween.onComplete.add(onComplete, this);
 		
-		// Add the background sound
+		//BACKGROUND SOUND
 		bgSound = game.add.audio('bgmusic');
 		bgSound.play();
 		bgSound.loopFull();

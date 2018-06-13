@@ -21,20 +21,19 @@ WebFontConfig = {
 var boot = {
 
 	preload: function () {
-		// Add the loadingbar to the scene:
+		//ADD THE LOADINGBAR TO THE SCENE:
 		var loadingBar = game.add.sprite(game.world.centerX - (387 / 2), 400, 'loading');
 
 		this.load.setPreloadSprite(loadingBar);
 		
-		// Load the Google WebFont Loader script
+		//LOAD THE GOOGLE WEBFONT LOADER SCRIPT: TO GET GOOGLE FONTS
     	game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
 		
-		// preloading animation sprites
-		game.load.spritesheet('catcher', 'images/catcher.png', 36, 40);
+		//PRELOAD SPRITES
 		game.load.spritesheet('button', 'images/button_sprite.png', 300, 75, 3);
 		game.load.spritesheet('playAgain', 'images/button_again_sprite.png', 300, 75, 3);		
 		
-		//preload the images from the tutorial
+		//PRELOAD THE IMAGES FOR THE GAME
 		game.load.image('bg', 'images/bg_1.png');
 		game.load.image('bg2', 'images/bg_2.png');
 		game.load.image('door', 'images/door_1.png');
@@ -45,17 +44,10 @@ var boot = {
     	game.load.image('victim', 'images/victim.png');
 		game.load.image('key', 'images/key.png');
 		
-		
-		
-		// preloading all audio files
+		//PRELAOD AUDIO FILES
 		game.load.audio('bgmusic', 'audio/danger_zone.mp3');
 		game.load.audio('scream', 'audio/scream.mp3');
-/*		game.load.audio('woosh', 'audio/airslide.mp3');
-		game.load.audio('jungle', 'audio/level2.mp3');
-		game.load.audio('monkey', 'audio/monkey.mp3');
-		game.load.audio('oowh', 'audio/oowh.mp3');
-*/
-	},
+},
 
 	create: function () {
 
@@ -91,7 +83,7 @@ var boot = {
 	},
 
 	actionOnClick: function () {
-		// launching level 1 splash screen
+		// LAUNCHING LEVEL 1 SPLASH SCREEN
 		game.state.start('splash1');
 	}
 
